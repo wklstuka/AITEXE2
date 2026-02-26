@@ -103,7 +103,7 @@
 
     <main>
         <!-- 2. Hero Section (bg: apple-gray) -->
-        <section class="pt-48 pb-32 px-6 text-center bg-apple-gray">
+        <section class="min-h-screen flex items-center justify-center pt-20 pb-24 px-6 text-center bg-apple-gray">
             <div class="max-w-4xl mx-auto">
                 <h1 class="text-5xl md:text-7xl font-bold tracking-tighter mb-6 leading-tight">
                     化繁为简，<br>知识自然沉淀。
@@ -136,58 +136,7 @@
             </div>
         </section>
 
-        <!-- 3. Knowledge Base Section (bg: white) -->
-        <section id="knowledge-base" class="py-12 px-6 bg-white">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-10">
-                    <h2 class="text-xl md:text-2xl font-bold tracking-tight mb-2">我的知识库</h2>
-                    <p class="text-base text-gray-500">一切，都在这一个窗口。强大的底层能力，包裹在最极简的交互之中。</p>
-                </div>
-
-                <!-- Horizontal 4 Cards with Elegant Typography - Reduced Height -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
-                    
-                    <!-- Card 1: 知识 -->
-                    <div onclick="openModal('modal-knowledge')" class="group cursor-pointer bg-apple-gray rounded-2xl p-6 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-44 relative overflow-hidden">
-                        <div class="absolute -right-2 -top-2 text-5xl font-serif italic text-gray-200/40 group-hover:text-gray-300/40 transition duration-500 select-none pointer-events-none">Knowledge</div>
-                        <div class="relative z-10 flex flex-col h-full justify-between">
-                            <h3 class="text-lg font-semibold text-black">知识图谱</h3>
-                            <p class="text-xs text-gray-500 leading-relaxed">自动合并同类话题，构建结构化知识网络。</p>
-                        </div>
-                    </div>
-
-                    <!-- Card 2: 关系 -->
-                    <div onclick="openModal('modal-people')" class="group cursor-pointer bg-apple-gray rounded-2xl p-6 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-44 relative overflow-hidden">
-                        <div class="absolute -right-2 -top-2 text-5xl font-serif italic text-gray-200/40 group-hover:text-gray-300/40 transition duration-500 select-none pointer-events-none">Network</div>
-                        <div class="relative z-10 flex flex-col h-full justify-between">
-                            <h3 class="text-lg font-semibold text-black">人脉网络</h3>
-                            <p class="text-xs text-gray-500 leading-relaxed">基于音色与人脸识别，沉淀专属交互记忆。</p>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: 会议 -->
-                    <div onclick="openModal('modal-meetings')" class="group cursor-pointer bg-apple-gray rounded-2xl p-6 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-44 relative overflow-hidden">
-                        <div class="absolute -right-2 -top-2 text-5xl font-serif italic text-gray-200/40 group-hover:text-gray-300/40 transition duration-500 select-none pointer-events-none">Meetings</div>
-                        <div class="relative z-10 flex flex-col h-full justify-between">
-                            <h3 class="text-lg font-semibold text-black">会议纪要</h3>
-                            <p class="text-xs text-gray-500 leading-relaxed">智能提取核心决议与风险点，告别冗长录音。</p>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: 待办 -->
-                    <div onclick="openModal('modal-tasks')" class="group cursor-pointer bg-apple-gray rounded-2xl p-6 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-44 relative overflow-hidden">
-                        <div class="absolute -right-2 -top-2 text-5xl font-serif italic text-gray-200/40 group-hover:text-gray-300/40 transition duration-500 select-none pointer-events-none">Action</div>
-                        <div class="relative z-10 flex flex-col h-full justify-between">
-                            <h3 class="text-lg font-semibold text-black">智能待办</h3>
-                            <p class="text-xs text-gray-500 leading-relaxed">从对话中精准提取 Action Items，绝不遗漏。</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. Features Section (bg: apple-bg) -->
+        <!-- 4. Features Section (bg: white) -->
         <section id="features" class="py-24 px-6 bg-apple-bg">
             <div class="max-w-5xl mx-auto">
                 <div class="text-center mb-20">
@@ -271,6 +220,57 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Knowledge Base Section (bg: apple-bg) -->
+        <section id="knowledge-base" class="py-24 px-6 bg-apple-bg">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-4">我的知识库</h2>
+                    <p class="text-lg text-gray-500">一切，都在这一个窗口。强大的底层能力，包裹在最极简的交互之中。</p>
+                </div>
+
+                <!-- Horizontal 4 Cards with Elegant Typography -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-5 max-w-6xl mx-auto">
+                    
+                    <!-- Card 1: 知识 -->
+                    <div onclick="openModal('modal-knowledge')" class="group cursor-pointer bg-white rounded-2xl p-8 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-56 relative overflow-hidden">
+                        <div class="absolute -right-2 -top-4 text-7xl font-serif italic text-gray-200/60 group-hover:text-gray-300/60 transition duration-500 select-none pointer-events-none">Knowledge</div>
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <h3 class="text-xl font-semibold text-black">知识图谱</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">自动合并同类话题，构建结构化知识网络。</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: 关系 -->
+                    <div onclick="openModal('modal-people')" class="group cursor-pointer bg-white rounded-2xl p-8 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-56 relative overflow-hidden">
+                        <div class="absolute -right-2 -top-4 text-7xl font-serif italic text-gray-200/60 group-hover:text-gray-300/60 transition duration-500 select-none pointer-events-none">Network</div>
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <h3 class="text-xl font-semibold text-black">人脉网络</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">基于音色与人脸识别，沉淀专属交互记忆。</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: 会议 -->
+                    <div onclick="openModal('modal-meetings')" class="group cursor-pointer bg-white rounded-2xl p-8 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-56 relative overflow-hidden">
+                        <div class="absolute -right-2 -top-4 text-7xl font-serif italic text-gray-200/60 group-hover:text-gray-300/60 transition duration-500 select-none pointer-events-none">Meetings</div>
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <h3 class="text-xl font-semibold text-black">会议纪要</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">智能提取核心决议与风险点，告别冗长录音。</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: 待办 -->
+                    <div onclick="openModal('modal-tasks')" class="group cursor-pointer bg-white rounded-2xl p-8 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-56 relative overflow-hidden">
+                        <div class="absolute -right-2 -top-4 text-7xl font-serif italic text-gray-200/60 group-hover:text-gray-300/60 transition duration-500 select-none pointer-events-none">Action</div>
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <h3 class="text-xl font-semibold text-black">智能待办</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">从对话中精准提取 Action Items，绝不遗漏。</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
