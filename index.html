@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus AI - 化繁为简</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        apple: {
+                            gray: '#fbfbfd',
+                            dark: '#1d1d1f',
+                            link: '#06c',
+                            bg: '#f5f5f7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fbfbfd;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+        }
+        /* 隐藏 details 默认的三角形 */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        /* Modal 动画过渡 */
+        .modal-backdrop {
+            transition: opacity 0.3s ease-out;
+        }
+        .modal-container {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+    <script>
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            const container = modal.querySelector('.modal-container');
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            modal.classList.add('opacity-100');
+            container.classList.remove('scale-95', 'opacity-0', 'translate-y-4');
+            container.classList.add('scale-100', 'opacity-100', 'translate-y-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            const container = modal.querySelector('.modal-container');
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            container.classList.remove('scale-100', 'opacity-100', 'translate-y-0');
+            container.classList.add('scale-95', 'opacity-0', 'translate-y-4');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-backdrop')) {
+                closeModal(event.target.id);
+            }
+        }
+    </script>
+</head>
+<body class="antialiased selection:bg-blue-200 selection:text-black">
+
+    <!-- 1. Header -->
+    <header class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-md border-b border-gray-200/50">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="font-semibold text-xl tracking-tight flex items-center gap-2">
+                <div class="w-6 h-6 bg-black rounded-md"></div>
+                <span>Nexus AI</span>
+            </div>
+            <nav class="hidden md:flex gap-8 text-sm font-medium text-gray-600">
+                <a href="#knowledge-base" class="hover:text-black transition">知识库</a>
+                <a href="#features" class="hover:text-black transition">功能</a>
+                <a href="#pricing" class="hover:text-black transition">定价</a>
+                <a href="#faq" class="hover:text-black transition">FAQ</a>
+            </nav>
+            <div>
+                <a href="#" class="bg-black text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition">立即体验</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. Hero Section (bg: apple-gray) -->
+        <section class="pt-40 pb-24 px-6 text-center bg-apple-gray">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tighter mb-6 leading-tight">
+                    化繁为简，<br>知识自然沉淀。
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-500 mb-16 max-w-2xl mx-auto font-light leading-relaxed">
+                    无需繁琐设置。将文字、录音、图片或视频拖入同一窗口，AI 即可自动梳理核心知识与会议纪要。
+                </p>
+
+                <!-- 核心交互演示：极简单窗口 -->
+                <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 p-3 flex items-center gap-4 transition-transform hover:scale-[1.01] duration-300 cursor-text">
+                    <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    </div>
+                    <div class="flex-1 text-left text-gray-400 text-lg font-light truncate">
+                        输入文字，或拖入录音、图片、视频...
+                    </div>
+                    <div class="flex items-center gap-2 pr-2 shrink-0">
+                        <button class="p-2 text-gray-400 hover:text-black transition rounded-full hover:bg-gray-50">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                        </button>
+                        <button class="p-2 text-gray-400 hover:text-black transition rounded-full hover:bg-gray-50">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </button>
+                        <button class="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center ml-2 hover:bg-gray-800 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400 mt-6">支持拖拽上传，最高支持 2GB 单文件</p>
+            </div>
+        </section>
+
+        <!-- 3. Knowledge Base Section (bg: white) -->
+        <section id="knowledge-base" class="py-24 px-6 bg-white">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">我的知识库</h2>
+                    <p class="text-xl text-gray-500">一切，都在这一个窗口。强大的底层能力，包裹在最极简的交互之中。</p>
+                </div>
+
+                <!-- Horizontal 4 Cards with Elegant Typography -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-5 max-w-6xl mx-auto">
+                    
+                    <!-- Card 1: 知识 -->
+                    <div onclick="openModal('modal-knowledge')" class="group cursor-pointer bg-apple-gray rounded-2xl p-8 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-56 relative overflow-hidden">
+                        <div class="absolute -right-2 -top-4 text-7xl font-serif italic text-gray-200/60 group-hover:text-gray-300/60 transition duration-500 select-none pointer-events-none">Knowledge</div>
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <h3 class="text-xl font-semibold text-black">知识图谱</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">自动合并同类话题，构建结构化知识网络。</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: 关系 -->
+                    <div onclick="openModal('modal-people')" class="group cursor-pointer bg-apple-gray rounded-2xl p-8 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-56 relative overflow-hidden">
+                        <div class="absolute -right-2 -top-4 text-7xl font-serif italic text-gray-200/60 group-hover:text-gray-300/60 transition duration-500 select-none pointer-events-none">Network</div>
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <h3 class="text-xl font-semibold text-black">人脉网络</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">基于音色与人脸识别，沉淀专属交互记忆。</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: 会议 -->
+                    <div onclick="openModal('modal-meetings')" class="group cursor-pointer bg-apple-gray rounded-2xl p-8 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-56 relative overflow-hidden">
+                        <div class="absolute -right-2 -top-4 text-7xl font-serif italic text-gray-200/60 group-hover:text-gray-300/60 transition duration-500 select-none pointer-events-none">Meetings</div>
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <h3 class="text-xl font-semibold text-black">会议纪要</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">智能提取核心决议与风险点，告别冗长录音。</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: 待办 -->
+                    <div onclick="openModal('modal-tasks')" class="group cursor-pointer bg-apple-gray rounded-2xl p-8 border border-gray-100 hover:border-gray-300 hover:shadow-sm transition duration-500 flex flex-col h-56 relative overflow-hidden">
+                        <div class="absolute -right-2 -top-4 text-7xl font-serif italic text-gray-200/60 group-hover:text-gray-300/60 transition duration-500 select-none pointer-events-none">Action</div>
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <h3 class="text-xl font-semibold text-black">智能待办</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">从对话中精准提取 Action Items，绝不遗漏。</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Features Section (bg: apple-bg) -->
+        <section id="features" class="py-24 px-6 bg-apple-bg">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-20">
+                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">重塑记录体验</h2>
+                    <p class="text-xl text-gray-500">打破格式壁垒，释放前所未有的生产力。</p>
+                </div>
+
+                <div class="space-y-24">
+                    <!-- Feature 1 -->
+                    <div class="flex flex-col md:flex-row items-center gap-12">
+                        <div class="flex-1 md:pr-12">
+                            <div class="w-12 h-12 mb-6 text-black">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path></svg>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight">无界输入</h3>
+                            <p class="text-lg text-gray-500 leading-relaxed">支持图文音视全格式，打破壁垒，随心记录。无论是会议录音、手写笔记还是白板照片，统统丢进来。</p>
+                        </div>
+                        <div class="flex-1 w-full">
+                            <div class="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 h-80 md:h-96 flex items-center justify-center overflow-hidden relative group">
+                                <div class="text-gray-300 font-medium group-hover:scale-105 transition duration-500">[ 大块图片展示区 ]</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+                        <div class="flex-1 md:pl-12">
+                            <div class="w-12 h-12 mb-6 text-black">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"></path></svg>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight">无感运行</h3>
+                            <p class="text-lg text-gray-500 leading-relaxed">告别繁琐表单。AI 自动识别意图，即刻响应。你只需专注于思考，剩下的交由底层智能引擎处理。</p>
+                        </div>
+                        <div class="flex-1 w-full">
+                            <div class="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 h-80 md:h-96 flex items-center justify-center overflow-hidden relative group">
+                                <div class="text-gray-300 font-medium group-hover:scale-105 transition duration-500">[ 大块图片展示区 ]</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="flex flex-col md:flex-row items-center gap-12">
+                        <div class="flex-1 md:pr-12">
+                            <div class="w-12 h-12 mb-6 text-black">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"></path></svg>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight">智能重构</h3>
+                            <p class="text-lg text-gray-500 leading-relaxed">碎片信息瞬间转化为结构化资产，井然有序。自动提炼会议纪要、提取核心知识点，让知识真正为你所用。</p>
+                        </div>
+                        <div class="flex-1 w-full">
+                            <div class="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 h-80 md:h-96 flex items-center justify-center overflow-hidden relative group">
+                                <div class="text-gray-300 font-medium group-hover:scale-105 transition duration-500">[ 大块图片展示区 ]</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+                        <div class="flex-1 md:pl-12">
+                            <div class="w-12 h-12 mb-6 text-black">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path></svg>
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight">秒级唤醒</h3>
+                            <p class="text-lg text-gray-500 leading-relaxed">强大的语义检索，专属知识库随时待命。只需一句话，即可在海量记录中精准定位，一秒唤醒记忆。</p>
+                        </div>
+                        <div class="flex-1 w-full">
+                            <div class="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 h-80 md:h-96 flex items-center justify-center overflow-hidden relative group">
+                                <div class="absolute inset-0 bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center p-8 group-hover:scale-105 transition duration-700">
+                                    <div class="w-full h-full bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50 shadow-sm p-6 flex flex-col gap-4">
+                                        <div class="w-full h-12 bg-white rounded-xl border border-orange-100 flex items-center px-4 gap-3 shadow-sm">
+                                            <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path></svg>
+                                            <div class="w-32 h-2.5 bg-orange-100 rounded-full"></div>
+                                        </div>
+                                        <div class="flex-1 bg-white/80 rounded-xl border border-orange-50 p-5 flex flex-col gap-3 shadow-sm">
+                                            <div class="w-1/3 h-3.5 bg-orange-300 rounded-full mb-1"></div>
+                                            <div class="w-full h-2.5 bg-orange-100 rounded-full"></div>
+                                            <div class="w-2/3 h-2.5 bg-orange-100 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Pricing Section (bg: white) -->
+        <section id="pricing" class="py-24 px-6 bg-white">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">简单透明的定价。</h2>
+                    <p class="text-xl text-gray-500">选择适合你的方案，随时可以取消。</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Free Plan -->
+                    <div class="bg-apple-gray p-10 rounded-[2.5rem] border border-gray-200 flex flex-col">
+                        <h3 class="text-2xl font-semibold mb-2">基础版</h3>
+                        <p class="text-gray-500 mb-6">适合日常轻度记录与整理</p>
+                        <div class="text-5xl font-bold tracking-tight mb-8">免费</div>
+                        <ul class="space-y-4 mb-10 flex-1 text-gray-600">
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 每月 50 次 AI 处理</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 单文件最高 50MB</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 基础知识库检索</li>
+                        </ul>
+                        <button class="w-full py-4 rounded-full bg-white border border-gray-200 text-black font-medium hover:bg-gray-50 transition">开始使用</button>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="bg-black text-white p-10 rounded-[2.5rem] shadow-2xl flex flex-col relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded-bl-xl">推荐</div>
+                        <h3 class="text-2xl font-semibold mb-2">Pro 版</h3>
+                        <p class="text-gray-400 mb-6">释放全部潜能，无限模态输入</p>
+                        <div class="text-5xl font-bold tracking-tight mb-2">¥39<span class="text-xl text-gray-400 font-normal">/月</span></div>
+                        <p class="text-sm text-gray-400 mb-8">按年订阅，立省 20%</p>
+                        <ul class="space-y-4 mb-10 flex-1 text-gray-300">
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 无限次 AI 处理</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 单文件最高 2GB (超长音视频)</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 专属高优算力通道</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 深度知识图谱生成</li>
+                        </ul>
+                        <button class="w-full py-4 rounded-full bg-white text-black font-medium hover:bg-gray-100 transition">升级到 Pro</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. FAQ Section (bg: apple-gray) -->
+        <section id="faq" class="py-24 px-6 bg-apple-gray">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-12 text-center">常见问题</h2>
+                
+                <div class="space-y-4">
+                    <!-- FAQ Item 1 -->
+                    <details class="group bg-white rounded-2xl p-6 cursor-pointer border border-gray-100">
+                        <summary class="flex justify-between items-center font-medium text-lg">
+                            <span>支持哪些格式的录音和视频？</span>
+                            <span class="transition duration-300 group-open:rotate-45 text-gray-400">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-gray-500 mt-4 leading-relaxed">
+                            我们支持几乎所有主流的音视频格式，包括 MP3, WAV, M4A, MP4, MOV 等。Pro 用户单次最高可上传 2GB 的超大文件，足够处理数小时的会议录像。
+                        </div>
+                    </details>
+
+                    <!-- FAQ Item 2 -->
+                    <details class="group bg-white rounded-2xl p-6 cursor-pointer border border-gray-100">
+                        <summary class="flex justify-between items-center font-medium text-lg">
+                            <span>我的数据隐私如何得到保障？</span>
+                            <span class="transition duration-300 group-open:rotate-45 text-gray-400">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-gray-500 mt-4 leading-relaxed">
+                            您的隐私是我们的首要任务。所有上传的文件在处理完成后会立即从处理服务器删除，生成的知识点数据采用端到端加密存储，绝不会用于训练公共 AI 模型。
+                        </div>
+                    </details>
+
+                    <!-- FAQ Item 3 -->
+                    <details class="group bg-white rounded-2xl p-6 cursor-pointer border border-gray-100">
+                        <summary class="flex justify-between items-center font-medium text-lg">
+                            <span>是否需要学习复杂的提示词 (Prompt)？</span>
+                            <span class="transition duration-300 group-open:rotate-45 text-gray-400">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-gray-500 mt-4 leading-relaxed">
+                            完全不需要。我们的核心理念就是“零配置”。您只需要把内容丢进窗口，底层的 AI Agent 会自动判断内容类型并执行最优的总结和提取策略。
+                        </div>
+                    </details>
+
+                    <!-- FAQ Item 4 -->
+                    <details class="group bg-white rounded-2xl p-6 cursor-pointer border border-gray-100">
+                        <summary class="flex justify-between items-center font-medium text-lg">
+                            <span>如何导出整理好的知识点？</span>
+                            <span class="transition duration-300 group-open:rotate-45 text-gray-400">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </span>
+                        </summary>
+                        <div class="text-gray-500 mt-4 leading-relaxed">
+                            支持一键导出为 Markdown, PDF, Word 格式，同时也支持直接同步到 Notion, Obsidian 等主流笔记软件中。
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 7. Footer -->
+    <footer class="border-t border-gray-200 bg-white pt-16 pb-8 px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2 font-semibold text-lg">
+                <div class="w-5 h-5 bg-black rounded-sm"></div>
+                <span>Nexus AI</span>
+            </div>
+            <div class="flex gap-6 text-sm text-gray-500">
+                <a href="#" class="hover:text-black transition">隐私政策</a>
+                <a href="#" class="hover:text-black transition">服务条款</a>
+                <a href="#" class="hover:text-black transition">联系我们</a>
+            </div>
+            <div class="text-sm text-gray-400">
+                &copy; 2025 Nexus AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals (Popups) -->
+    
+    <!-- Modal: 知识 -->
+    <div id="modal-knowledge" class="modal-backdrop fixed inset-0 bg-black/30 backdrop-blur-sm z-[100] hidden opacity-0 flex items-center justify-center p-4">
+        <div class="modal-container bg-white rounded-[2rem] shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col transform scale-95 opacity-0 translate-y-4">
+            <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                <h3 class="text-2xl font-bold">知识图谱</h3>
+                <button onclick="closeModal('modal-knowledge')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <p class="text-gray-500 mb-6">自动合并同类话题，构建结构化知识网络。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-gray-100 transition cursor-pointer group">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-4 text-blue-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 21v-7.5a2.25 2.25 0 012.25-2.25h1.5a2.25 2.25 0 012.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5M6 18.75h4.5M15 11.25h.008v.008H15v-.008z"></path></svg>
+                        </div>
+                        <h4 class="font-semibold mb-1 text-lg">产品设计与规划</h4>
+                        <p class="text-sm text-gray-500">包含 12 条记录 · 涉及 3 个项目</p>
+                    </div>
+                    <div class="p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-gray-100 transition cursor-pointer group">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mb-4 text-purple-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"></path></svg>
+                        </div>
+                        <h4 class="font-semibold mb-1 text-lg">Q3 营销策略</h4>
+                        <p class="text-sm text-gray-500">包含 8 条记录 · 提取自 2 场会议</p>
+                    </div>
+                    <div class="p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-gray-100 transition cursor-pointer group">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mb-4 text-green-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                        </div>
+                        <h4 class="font-semibold mb-1 text-lg">AI 技术前沿</h4>
+                        <p class="text-sm text-gray-500">包含 25 条记录 · 网页剪藏与播客</p>
+                    </div>
+                    <div class="p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-gray-100 transition cursor-pointer group flex items-center justify-center border-dashed">
+                        <div class="text-gray-400 font-medium">+ 查看更多知识节点</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: 关系 -->
+    <div id="modal-people" class="modal-backdrop fixed inset-0 bg-black/30 backdrop-blur-sm z-[100] hidden opacity-0 flex items-center justify-center p-4">
+        <div class="modal-container bg-white rounded-[2rem] shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col transform scale-95 opacity-0 translate-y-4">
+            <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                <h3 class="text-2xl font-bold">人脉网络</h3>
+                <button onclick="closeModal('modal-people')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <p class="text-gray-500 mb-6">基于音色与人脸识别，沉淀与每个人的交互记忆。</p>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border border-gray-100 hover:bg-gray-50 transition cursor-pointer">
+                        <div class="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 font-medium text-xl">张</div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-lg">张总 (CTO)</h4>
+                            <p class="text-sm text-gray-500">最近交流：昨天下午 · 讨论了架构升级方案</p>
+                        </div>
+                        <div class="text-xs bg-gray-100 px-3 py-1.5 rounded-full text-gray-600 font-medium">15 条记录</div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border border-gray-100 hover:bg-gray-50 transition cursor-pointer">
+                        <div class="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 font-medium text-xl">L</div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-lg">Liya (设计总监)</h4>
+                            <p class="text-sm text-gray-500">最近交流：上周三 · 确认了 V2.0 UI 规范</p>
+                        </div>
+                        <div class="text-xs bg-gray-100 px-3 py-1.5 rounded-full text-gray-600 font-medium">8 条记录</div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border border-gray-100 hover:bg-gray-50 transition cursor-pointer">
+                        <div class="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 font-medium text-xl">王</div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-lg">王律师</h4>
+                            <p class="text-sm text-gray-500">最近交流：上个月 · 审核了新的服务条款</p>
+                        </div>
+                        <div class="text-xs bg-gray-100 px-3 py-1.5 rounded-full text-gray-600 font-medium">3 条记录</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: 会议 -->
+    <div id="modal-meetings" class="modal-backdrop fixed inset-0 bg-black/30 backdrop-blur-sm z-[100] hidden opacity-0 flex items-center justify-center p-4">
+        <div class="modal-container bg-white rounded-[2rem] shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col transform scale-95 opacity-0 translate-y-4">
+            <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                <h3 class="text-2xl font-bold">会议纪要</h3>
+                <button onclick="closeModal('modal-meetings')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <p class="text-gray-500 mb-6">所有输入的会议录音/视频，自动生成的结构化总结。</p>
+                <div class="space-y-8">
+                    <div class="relative pl-8 border-l-2 border-gray-200">
+                        <div class="absolute w-4 h-4 bg-black rounded-full -left-[9px] top-1 border-4 border-white"></div>
+                        <div class="text-sm text-gray-400 mb-1 font-medium">今天 10:00 AM</div>
+                        <h4 class="font-semibold text-lg mb-3">产品周会：Q4 目标对齐</h4>
+                        <div class="bg-gray-50 p-5 rounded-2xl text-sm text-gray-600 border border-gray-100">
+                            <p class="mb-2"><strong class="text-black">核心决议：</strong>确认了 Q4 的三大核心目标，优先推进 AI 助手模块上线。</p>
+                            <p><strong class="text-black">风险点：</strong>开发资源可能存在 20% 的缺口，需协调外部支持。</p>
+                        </div>
+                    </div>
+                    <div class="relative pl-8 border-l-2 border-gray-200">
+                        <div class="absolute w-4 h-4 bg-gray-300 rounded-full -left-[9px] top-1 border-4 border-white"></div>
+                        <div class="text-sm text-gray-400 mb-1 font-medium">昨天 14:30 PM</div>
+                        <h4 class="font-semibold text-lg mb-3">客户需求沟通 (A公司)</h4>
+                        <div class="bg-gray-50 p-5 rounded-2xl text-sm text-gray-600 border border-gray-100">
+                            <p><strong class="text-black">核心诉求：</strong>客户希望增加数据导出格式（支持 PDF 和 Notion）。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: 待办 -->
+    <div id="modal-tasks" class="modal-backdrop fixed inset-0 bg-black/30 backdrop-blur-sm z-[100] hidden opacity-0 flex items-center justify-center p-4">
+        <div class="modal-container bg-white rounded-[2rem] shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col transform scale-95 opacity-0 translate-y-4">
+            <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                <h3 class="text-2xl font-bold">智能待办</h3>
+                <button onclick="closeModal('modal-tasks')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <p class="text-gray-500 mb-6">从文字和录音中自动提取的 Action Items。</p>
+                <div class="space-y-3">
+                    <label class="flex items-start gap-4 p-5 rounded-2xl border border-gray-100 hover:bg-gray-50 cursor-pointer transition">
+                        <input type="checkbox" class="mt-1 w-5 h-5 rounded border-gray-300 text-black focus:ring-black">
+                        <div>
+                            <p class="font-medium text-lg">整理并发送 Q4 目标文档给全员</p>
+                            <p class="text-sm text-gray-400 mt-1">提取自：产品周会 · 建议截止：今天下班前</p>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-4 p-5 rounded-2xl border border-gray-100 hover:bg-gray-50 cursor-pointer transition">
+                        <input type="checkbox" class="mt-1 w-5 h-5 rounded border-gray-300 text-black focus:ring-black">
+                        <div>
+                            <p class="font-medium text-lg">评估 A 公司提出的 Notion 导出需求技术可行性</p>
+                            <p class="text-sm text-gray-400 mt-1">提取自：客户需求沟通 · 负责人：研发组</p>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-4 p-5 rounded-2xl border border-gray-100 hover:bg-gray-50 cursor-pointer transition opacity-50">
+                        <input type="checkbox" checked class="mt-1 w-5 h-5 rounded border-gray-300 text-black focus:ring-black">
+                        <div>
+                            <p class="font-medium text-lg line-through">预定下周团建场地</p>
+                            <p class="text-sm text-gray-400 mt-1">提取自：HR 语音备忘</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
